@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+    
+    <form class="form">
+        <h1>Registration form with api</h1>
+        <input name="username" type="text" placeholder="username" required>
+        <input type="password" name="password" placeholder="password" required>
+        <p><input name="termsconditions" type="checkbox" required>Terms and Conditions</p>
+        <button type="submit">Submit</button>
+        <hr>
+        <p id="formAccepted"></p>
+    </form>
+    
+    <script>
+        const formEl = document.querySelector('.form');
+
+        formEl.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(formEl);
+            const data = Object.fromEntries(formData);
+            
+            var fname=document.getElementsByClassName('username').value;
+            const thankyou = document.getElementById('formAccepted').innerHTML = 'Thankyou, for signing up with us.';
+
+            fetch ("https://reqres.in/api/users",{
+                method: 'POST',
+                header:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+            .then(data => thankyou)
+            .catch(error => console.log(error));
+        });
+    </script>
+</body>
+
+</html>
